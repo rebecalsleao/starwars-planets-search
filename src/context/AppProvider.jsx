@@ -5,18 +5,26 @@ import useFetch from '../hooks/useFetch';
 
 function AppProvider({ children }) {
   const [apiData, setApiData] = useState([]);
+  const [apiQuery, setApiQuery] = useState([]);
 
   const { makeFetch } = useFetch();
 
   useEffect(() => {
     const fetch = async () => {
       const data = await makeFetch();
-      return setApiData(data.results);
+      setApiData(data.results);
+      setApiQuery(data.results);
     };
     fetch();
   }, []);
 
-  const values = { apiData };
+  const filterName = (name) => {
+    const filterApi = apiData
+      .filter((element) => element.name.toLowerCase().includes(name.toLowerCase()));
+    setApiQuery(filterApi);
+  };
+
+  const values = { apiData, apiQuery, filterName };
 
   return (
     <AppContext.Provider value={ values }>

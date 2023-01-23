@@ -2,10 +2,9 @@ import React, { useContext } from 'react';
 import AppContext from '../context/AppContext';
 
 function Table() {
-  const { apiData } = useContext(AppContext);
+  const { apiQuery } = useContext(AppContext);
   return (
     <div>
-      <h1>Projeto Star Wars</h1>
       <table>
         <thead>
           <tr>
@@ -25,7 +24,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {apiData.map((planet) => (
+          {apiQuery.map((planet) => (
             <tr key={ planet.name }>
               <td>{planet.name}</td>
               <td>{planet.rotation_period}</td>
