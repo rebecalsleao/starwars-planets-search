@@ -50,7 +50,7 @@ function AppProvider({ children }) {
     }
     case 'menor que': {
       const smallerFilter = apiQuery.filter((planet) => (
-        planet[colunmsSearch] < numberValue
+        Number(planet[colunmsSearch]) < numberValue
       ));
       setApiQuery(smallerFilter);
       break;
@@ -71,8 +71,11 @@ function AppProvider({ children }) {
     apiData,
     apiQuery,
     handleFilterName,
+    colunmsSearch,
     handleColunmsSearch,
+    operator,
     handleOperatorSearch,
+    numberValue,
     handleNumberValueSearch,
     handleFilterClick,
   };

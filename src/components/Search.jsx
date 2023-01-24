@@ -3,8 +3,11 @@ import AppContext from '../context/AppContext';
 
 function Search() {
   const { handleFilterName,
+    colunmsSearch,
     handleColunmsSearch,
+    operator,
     handleOperatorSearch,
+    numberValue,
     handleNumberValueSearch,
     handleFilterClick,
   } = useContext(AppContext);
@@ -26,7 +29,7 @@ function Search() {
         <select
           type="select"
           id="column-input"
-          // value={ value }
+          value={ colunmsSearch }
           data-testid="column-filter"
           onChange={ (event) => handleColunmsSearch(event.target.value) }
         >
@@ -43,7 +46,7 @@ function Search() {
         <select
           type="select"
           id="operator-input"
-          // value={ value }
+          value={ operator }
           data-testid="comparison-filter"
           onChange={ (event) => handleOperatorSearch(event.target.value) }
         >
@@ -57,7 +60,7 @@ function Search() {
         type="number"
         name="value-number"
         id="value-number"
-        // value={ value }
+        value={ numberValue }
         data-testid="value-filter"
         onChange={ (event) => handleNumberValueSearch(event.target.value) }
       />
