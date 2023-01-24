@@ -2,7 +2,12 @@ import React, { useContext } from 'react';
 import AppContext from '../context/AppContext';
 
 function Search() {
-  const { filterName, value } = useContext(AppContext);
+  const { handleFilterName,
+    handleColunmsSearch,
+    handleOperatorSearch,
+    handleNumberValueSearch,
+    handleFilterClick,
+  } = useContext(AppContext);
 
   return (
     <div>
@@ -10,10 +15,63 @@ function Search() {
       <input
         type="text"
         name="search"
-        value={ value }
+        // value={ value }
         data-testid="name-filter"
-        onChange={ (event) => filterName(event.target.value) }
+        onChange={ (event) => handleFilterName(event.target.value) }
       />
+      <br />
+
+      <label htmlFor="column-input">
+        Coluna
+        <select
+          type="select"
+          id="column-input"
+          // value={ value }
+          data-testid="column-filter"
+          onChange={ (event) => handleColunmsSearch(event.target.value) }
+        >
+          <option value="population">population</option>
+          <option value="orbital_period">orbital_period</option>
+          <option value="diameter">diameter</option>
+          <option value="rotation_period">rotation_period</option>
+          <option value="surface_water">surface_water</option>
+        </select>
+      </label>
+
+      <label htmlFor="operator-input">
+        Operador
+        <select
+          type="select"
+          id="operator-input"
+          // value={ value }
+          data-testid="comparison-filter"
+          onChange={ (event) => handleOperatorSearch(event.target.value) }
+        >
+          <option value="maior que">maior que</option>
+          <option value="menor que">menor que</option>
+          <option value="igual a">igual a</option>
+        </select>
+      </label>
+
+      <input
+        type="number"
+        name="value-number"
+        id="value-number"
+        // value={ value }
+        data-testid="value-filter"
+        onChange={ (event) => handleNumberValueSearch(event.target.value) }
+      />
+
+      <button
+        type="button"
+        id="button-filter"
+        data-testid="button-filter"
+        onClick={ () => handleFilterClick() }
+      >
+        Filtrar
+
+      </button>
+
     </div>
   );
 }
