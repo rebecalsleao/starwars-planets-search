@@ -4,11 +4,15 @@ import AppContext from './AppContext';
 import useFetch from '../hooks/useFetch';
 
 function AppProvider({ children }) {
+  const filtersOptionsColumns = ['population', 'orbital_period', 'diameter',
+    'rotation_period', 'surface_water'];
+
   const [apiData, setApiData] = useState([]);
   const [apiQuery, setApiQuery] = useState([]);
   const [colunmsSearch, setColunmsSearch] = useState('population');
   const [operator, setOperator] = useState('maior que');
   const [numberValue, setNumberValue] = useState(0);
+  const [options, setOptions] = useState(filtersOptionsColumns);
 
   const { makeFetch } = useFetch();
 
@@ -46,6 +50,9 @@ function AppProvider({ children }) {
         Number(planet[colunmsSearch]) > numberValue
       ));
       setApiQuery(biggerFilter);
+      const optionsColumnsArray = options.filter((option) => option !== colunmsSearch);
+      setOptions(optionsColumnsArray);
+      setColunmsSearch(optionsColumnsArray[0]);
       break;
     }
     case 'menor que': {
@@ -53,6 +60,9 @@ function AppProvider({ children }) {
         Number(planet[colunmsSearch]) < numberValue
       ));
       setApiQuery(smallerFilter);
+      const optionsColumnsArray = options.filter((option) => option !== colunmsSearch);
+      setOptions(optionsColumnsArray);
+      setColunmsSearch(optionsColumnsArray[0]);
       break;
     }
     case 'igual a': {
@@ -60,6 +70,9 @@ function AppProvider({ children }) {
         Number(planet[colunmsSearch]) === Number(numberValue)
       ));
       setApiQuery(equalFilter);
+      const optionsColumnsArray = options.filter((option) => option !== colunmsSearch);
+      setOptions(optionsColumnsArray);
+      setColunmsSearch(optionsColumnsArray[0]);
       break;
     }
     default:
@@ -78,6 +91,7 @@ function AppProvider({ children }) {
     numberValue,
     handleNumberValueSearch,
     handleFilterClick,
+    options,
   };
 
   return (

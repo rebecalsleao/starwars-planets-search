@@ -2,7 +2,8 @@ import React, { useContext } from 'react';
 import AppContext from '../context/AppContext';
 
 function Search() {
-  const { handleFilterName,
+  const {
+    handleFilterName,
     colunmsSearch,
     handleColunmsSearch,
     operator,
@@ -10,6 +11,7 @@ function Search() {
     numberValue,
     handleNumberValueSearch,
     handleFilterClick,
+    options,
   } = useContext(AppContext);
 
   return (
@@ -18,7 +20,6 @@ function Search() {
       <input
         type="text"
         name="search"
-        // value={ value }
         data-testid="name-filter"
         onChange={ (event) => handleFilterName(event.target.value) }
       />
@@ -33,11 +34,14 @@ function Search() {
           data-testid="column-filter"
           onChange={ (event) => handleColunmsSearch(event.target.value) }
         >
-          <option value="population">population</option>
+          {/* <option value="population">population</option>
           <option value="orbital_period">orbital_period</option>
           <option value="diameter">diameter</option>
           <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          <option value="surface_water">surface_water</option> */}
+          { options.map((option, index) => (
+            <option key={ index } value={ option }>{ option }</option>
+          )) }
         </select>
       </label>
 
