@@ -102,34 +102,34 @@ function AppProvider({ children }) {
       setFilters(newFilters);
     }
 
-    const listaFinal = [];
+    const arrayFinal = [];
     apiData.forEach((data) => {
-      const listaDeFiltrosDosPlanetas = [];
+      const planetsFilterList = [];
       newFilters.forEach((filter) => {
-        let essePlanetaPassouNesseFiltro = false;
+        let passedThisFilter = false;
         if (filter.operator === 'maior que') {
-          essePlanetaPassouNesseFiltro = +data[filter.colunmsSearch]
+          passedThisFilter = +data[filter.colunmsSearch]
            > +filter.numberValue;
         } else if (filter.operator === 'menor que') {
-          essePlanetaPassouNesseFiltro = +data[filter.colunmsSearch]
+          passedThisFilter = +data[filter.colunmsSearch]
            < +filter.numberValue;
         } else {
-          essePlanetaPassouNesseFiltro = +data[filter.colunmsSearch]
+          passedThisFilter = +data[filter.colunmsSearch]
           === +filter.numberValue;
         }
 
-        listaDeFiltrosDosPlanetas.push(essePlanetaPassouNesseFiltro);
+        planetsFilterList.push(passedThisFilter);
       });
 
-      const existeAlgumFiltroQueEhFalse = listaDeFiltrosDosPlanetas.some(
-        (filtro) => filtro === false,
+      const thereIsFalseFilter = planetsFilterList.some(
+        (filter) => filter === false,
       );
-      if (!existeAlgumFiltroQueEhFalse) {
-        listaFinal.push(data);
+      if (!thereIsFalseFilter) {
+        arrayFinal.push(data);
       }
     });
 
-    setApiQuery(listaFinal);
+    setApiQuery(arrayFinal);
   };
 
   const values = {
