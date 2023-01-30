@@ -13,6 +13,7 @@ function AppProvider({ children }) {
   const [operator, setOperator] = useState('maior que');
   const [numberValue, setNumberValue] = useState(0);
   const [options, setOptions] = useState(filtersOptionsColumns);
+  const [filters, setFilters] = useState([]);
 
   const { makeFetch } = useFetch();
 
@@ -53,6 +54,7 @@ function AppProvider({ children }) {
       const optionsColumnsArray = options.filter((option) => option !== colunmsSearch);
       setOptions(optionsColumnsArray);
       setColunmsSearch(optionsColumnsArray[0]);
+      setFilters([...filters, { colunmsSearch, operator, numberValue }]);
       break;
     }
     case 'menor que': {
@@ -63,6 +65,7 @@ function AppProvider({ children }) {
       const optionsColumnsArray = options.filter((option) => option !== colunmsSearch);
       setOptions(optionsColumnsArray);
       setColunmsSearch(optionsColumnsArray[0]);
+      setFilters([...filters, { colunmsSearch, operator, numberValue }]);
       break;
     }
     case 'igual a': {
@@ -73,11 +76,60 @@ function AppProvider({ children }) {
       const optionsColumnsArray = options.filter((option) => option !== colunmsSearch);
       setOptions(optionsColumnsArray);
       setColunmsSearch(optionsColumnsArray[0]);
+      setFilters([...filters, { colunmsSearch, operator, numberValue }]);
       break;
     }
     default:
       break;
     }
+  };
+
+  const handleRemoveAllClick = () => {
+    setOptions(filtersOptionsColumns);
+    setColunmsSearch(filtersOptionsColumns[0]);
+    setFilters([]);
+    setApiQuery(apiData);
+  };
+
+  const handleRemoveOneClick = (event) => {
+    const indexToRemove = event.target.id;
+    let newFilters = [];
+    if (filters.length > 1) {
+      newFilters = [...filters];
+      newFilters.splice(indexToRemove, 1);
+      setFilters(newFilters);
+    } else {
+      setFilters(newFilters);
+    }
+
+    const listaFinal = [];
+    apiData.forEach((data) => {
+      const listaDeFiltrosDosPlanetas = [];
+      newFilters.forEach((filter) => {
+        let essePlanetaPassouNesseFiltro = false;
+        if (filter.operator === 'maior que') {
+          essePlanetaPassouNesseFiltro = +data[filter.colunmsSearch]
+           > +filter.numberValue;
+        } else if (filter.operator === 'menor que') {
+          essePlanetaPassouNesseFiltro = +data[filter.colunmsSearch]
+           < +filter.numberValue;
+        } else {
+          essePlanetaPassouNesseFiltro = +data[filter.colunmsSearch]
+          === +filter.numberValue;
+        }
+
+        listaDeFiltrosDosPlanetas.push(essePlanetaPassouNesseFiltro);
+      });
+
+      const existeAlgumFiltroQueEhFalse = listaDeFiltrosDosPlanetas.some(
+        (filtro) => filtro === false,
+      );
+      if (!existeAlgumFiltroQueEhFalse) {
+        listaFinal.push(data);
+      }
+    });
+
+    setApiQuery(listaFinal);
   };
 
   const values = {
@@ -92,6 +144,9 @@ function AppProvider({ children }) {
     handleNumberValueSearch,
     handleFilterClick,
     options,
+    filters,
+    handleRemoveAllClick,
+    handleRemoveOneClick,
   };
 
   return (

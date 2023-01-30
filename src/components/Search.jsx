@@ -12,7 +12,36 @@ function Search() {
     handleNumberValueSearch,
     handleFilterClick,
     options,
+    handleRemoveAllClick,
+    filters,
+    handleRemoveOneClick,
   } = useContext(AppContext);
+
+  const showFilters = () => {
+    if (filters.length > 0) {
+      return (
+        filters.map((filter, index) => (
+          <section
+            key={ index }
+            data-testid="filter"
+          >
+            <div>
+              {filter.colunmsSearch}
+              {filter.operator}
+              {filter.numberValue}
+            </div>
+            <button
+              type="button"
+              id={ index }
+              onClick={ handleRemoveOneClick }
+            >
+              Limpar
+            </button>
+          </section>
+        ))
+      );
+    }
+  };
 
   return (
     <div>
@@ -34,11 +63,6 @@ function Search() {
           data-testid="column-filter"
           onChange={ (event) => handleColunmsSearch(event.target.value) }
         >
-          {/* <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option> */}
           { options.map((option, index) => (
             <option key={ index } value={ option }>{ option }</option>
           )) }
@@ -78,6 +102,14 @@ function Search() {
         Filtrar
 
       </button>
+      <button
+        type="button"
+        data-testid="button-remove-filters"
+        onClick={ (event) => handleRemoveAllClick(event) }
+      >
+        Remover Filtros
+      </button>
+      { showFilters() }
 
     </div>
   );
