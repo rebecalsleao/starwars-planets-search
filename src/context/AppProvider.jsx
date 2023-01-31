@@ -132,6 +132,23 @@ function AppProvider({ children }) {
     setApiQuery(arrayFinal);
   };
 
+  const handleButtonColunmsSort = (sortColumnsSelectValue, sortOrder) => {
+    const unknownItems = apiQuery.filter((i) => i[sortColumnsSelectValue] === 'unknown');
+    const sortData = apiQuery.filter((i) => i[sortColumnsSelectValue]
+     !== 'unknown').slice().sort((a, b) => {
+      if (sortOrder === 'ASC') {
+        return (
+          +a[sortColumnsSelectValue] > +b[sortColumnsSelectValue] ? 1 : (0 - 1)
+        );
+      }
+      return (
+        +a[sortColumnsSelectValue] < +b[sortColumnsSelectValue] ? 1 : (0 - 1)
+      );
+    });
+
+    setApiQuery(sortData.concat(unknownItems));
+  };
+
   const values = {
     apiData,
     apiQuery,
@@ -147,6 +164,7 @@ function AppProvider({ children }) {
     filters,
     handleRemoveAllClick,
     handleRemoveOneClick,
+    handleButtonColunmsSort,
   };
 
   return (

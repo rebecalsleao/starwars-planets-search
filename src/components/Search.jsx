@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import AppContext from '../context/AppContext';
 
 function Search() {
@@ -15,7 +15,21 @@ function Search() {
     handleRemoveAllClick,
     filters,
     handleRemoveOneClick,
+    handleButtonColunmsSort,
   } = useContext(AppContext);
+
+  const [sortColumnsSelectValue, setSortColumnsSelectValue] = useState('population');
+  const [sortOrder, setSortOrder] = useState('ASC');
+
+  const handleSelectSortColunms = (event) => {
+    setSortColumnsSelectValue(event);
+    console.log(event);
+  };
+
+  const handleRadioSortColunms = (event) => {
+    setSortOrder(event);
+    console.log(event);
+  };
 
   const showFilters = () => {
     if (filters.length > 0) {
@@ -102,6 +116,58 @@ function Search() {
         Filtrar
 
       </button>
+
+      <label htmlFor="column-sort">
+        Ordenar
+        <select
+          type="select"
+          id="column-sort"
+          value={ sortColumnsSelectValue }
+          data-testid="column-sort"
+          onChange={ (event) => handleSelectSortColunms(event.target.value) }
+        >
+          { options.map((option, index) => (
+            <option key={ index } value={ option }>{ option }</option>
+          )) }
+        </select>
+      </label>
+
+      <div>
+        <label htmlFor="input-radio-asc">
+          Ascendente
+          <input
+            id="input-radio-asc"
+            type="radio"
+            name="radio-sort"
+            data-testid="column-sort-input-asc"
+            value="ASC"
+            onChange={ (event) => handleRadioSortColunms(event.target.value) }
+          />
+        </label>
+        <label htmlFor="input-radio-des">
+          Descendente
+          <input
+            id="input-radio-des"
+            type="radio"
+            name="radio-sort"
+            data-testid="column-sort-input-desc"
+            value="DESC"
+            onChange={ (event) => handleRadioSortColunms(event.target.value) }
+          />
+        </label>
+
+        <button
+          type="button"
+          data-testid="column-sort-button"
+          onClick={ () => handleButtonColunmsSort(
+            sortColumnsSelectValue,
+            sortOrder,
+          ) }
+        >
+          Ordenar
+        </button>
+      </div>
+
       <button
         type="button"
         data-testid="button-remove-filters"
