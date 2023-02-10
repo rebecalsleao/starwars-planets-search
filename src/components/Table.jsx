@@ -25,7 +25,7 @@ function Table() {
         </thead>
         <tbody>
           {apiQuery.map((planet) => (
-            <tr key={ planet.name }>
+            <tr key={ planet.name } data-testid="planet-content">
               <td data-testid="planet-name">{planet.name}</td>
               <td>{planet.rotation_period}</td>
               <td>{planet.orbital_period}</td>

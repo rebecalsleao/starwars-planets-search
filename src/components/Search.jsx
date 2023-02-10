@@ -23,12 +23,10 @@ function Search() {
 
   const handleSelectSortColunms = (event) => {
     setSortColumnsSelectValue(event);
-    console.log(event);
   };
 
   const handleRadioSortColunms = (event) => {
     setSortOrder(event);
-    console.log(event);
   };
 
   const showFilters = () => {
@@ -48,6 +46,7 @@ function Search() {
               type="button"
               id={ index }
               onClick={ handleRemoveOneClick }
+              data-testid="btn-remove-one-click"
             >
               Limpar
             </button>
@@ -132,7 +131,7 @@ function Search() {
         </select>
       </label>
 
-      <div>
+      <div data-testid="column-sort-asc-desc-button">
         <label htmlFor="input-radio-asc">
           Ascendente
           <input
